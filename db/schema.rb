@@ -21,6 +21,11 @@ ActiveRecord::Schema.define(version: 2022_09_14_130019) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "dish_ingredient", id: :serial, force: :cascade do |t|
+    t.bigint "dish_id"
+    t.bigint "ingredient_id"
+  end
+
   create_table "dishes", force: :cascade do |t|
     t.string "name"
     t.string "description"
@@ -30,5 +35,12 @@ ActiveRecord::Schema.define(version: 2022_09_14_130019) do
     t.index ["chef_id"], name: "index_dishes_on_chef_id"
   end
 
+  create_table "ingredients", id: :serial, force: :cascade do |t|
+    t.text "name"
+    t.integer "calories"
+  end
+
+  add_foreign_key "dish_ingredient", "dishes", name: "dish_id"
+  add_foreign_key "dish_ingredient", "ingredients", name: "ingredient_id"
   add_foreign_key "dishes", "chefs"
 end
